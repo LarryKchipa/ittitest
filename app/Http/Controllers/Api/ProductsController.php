@@ -44,7 +44,14 @@ class ProductsController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $products = $this->getData();
+        $index    = ($id - 1) >= 1 ? $id - 1 : 0;
+
+        if (!isset($products[$index]))
+        {
+            return response()->json(['message' => 'Producto Inexistente'], 404);
+        }
+        return response()->json($products[$index]);
     }
 
     /**
@@ -86,7 +93,7 @@ class ProductsController extends Controller
 
         $products[$index]->status = false;
         $this->saveFile($products);
-        return response()->json(['message' => 'Producto No Activo']);
+        return response()->json(['message' => 'El producto se a dado de baja']);
 
     }
 
